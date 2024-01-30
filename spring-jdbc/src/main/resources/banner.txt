@@ -1,0 +1,3 @@
+String-JDBC
+Spring Boot ${spring-boot.version}
+HTTP port: ${server.port}
