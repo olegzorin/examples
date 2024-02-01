@@ -2,6 +2,7 @@ package org.example.springjdbc;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
@@ -25,18 +26,19 @@ public class AppConfig {
 
     public static void main(String[] args) {
         System.out.println(loadProperties());
-        System.out.println(new AppConfig().mysqlDataSource());
+        DataSource ds = new AppConfig().mysqlDataSource();
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        System.out.println(jt.queryForObject("select count(1) from emp", Integer.class));
     }
 
     @Bean(name="MyDataSource")
     public DataSource mysqlDataSource() {
         Properties properties = loadProperties();
-
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(properties.getProperty("jdbc.driver"));
         dataSource.setUsername(properties.getProperty("jdbc.user"));
         dataSource.setPassword(properties.getProperty("jdbc.password"));
-        dataSource.setUrl("jdbc:mysql://localhost:3306/springexample");
+        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/examples");
 
         return dataSource;
     }
