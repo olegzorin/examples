@@ -3,13 +3,7 @@ package org.example.springjdbc.restful;
 
 import org.example.springjdbc.database.DbAccess;
 import org.example.springjdbc.model.Emp;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RsController {
@@ -21,39 +15,48 @@ public class RsController {
     }
 
     @GetMapping("/")
-    public String hello() {
-        return "Greetings from Spring Boot!";
+    public Result hello() {
+        return Result.ok("Greetings from Spring Boot!");
     }
 
     @GetMapping("/depts")
-    public String depts() {
-        try {
-            List<Map<String, Object>> res = dbAccess.listDepts();
-            return "Depts: " + res;
-        } catch (Exception e) {
-            return "Error: " + e;
-        }
+    public Result depts() {
+        return Result.ok(dbAccess.listDepts());
     }
 
     @GetMapping("/depts/{deptNo}")
-    public Map<String, Object> dept(
+    public Result dept(
         @PathVariable("deptNo") int deptNo
     ) {
-        return dbAccess.getDept(deptNo);
+        return Result.ok(dbAccess.getDept(deptNo));
     }
 
     @GetMapping(value = "/emps", produces = "application/json")
-    public List<Emp> emps(
+    public Result emps(
         @RequestParam(value = "deptNo", required = false) Integer deptNo
     ) {
-        return dbAccess.listEmps(deptNo);
+        return Result.ok(dbAccess.listEmps(deptNo));
     }
 
     @GetMapping(value = "/emps/{empNo}", produces = "application/json")
-    public Emp emp(
+    public Result getEmp(
         @PathVariable("empNo") int empNo
     ) {
-        return dbAccess.getEmp(empNo);
+        return Result.ok(dbAccess.getEmp(empNo));
+    }
+
+    @PostMapping(value = "/emps/{empNo}", consumes = "application/json")
+    public Result addEmp(
+        @PathVariable("empNo") int empNo,
+        @RequestBody Emp emp
+    ) {
+        emp.empNo = empNo;
+        try {
+            dbAccess.addEmp(emp);
+            return Result.ok();
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
     }
 
 }

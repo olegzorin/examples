@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Emp {
 
     public int empNo;
-    public String empName;
+    public String name;
     public String job;
     public Integer mgr;
     public Timestamp hireDate;
@@ -13,4 +13,18 @@ public class Emp {
     public Integer comm;
     public Integer deptNo;
 
+
+    @Override
+    public String toString() {
+        return "Emp{" +
+            "empNo=" + empNo +
+            ", name='" + name + '\'' +
+            ", job='" + job + '\'' +
+            ", mgr=" + mgr +
+            ", hireDate=" + hireDate +
+            ", sal=" + sal +
+            ", comm=" + comm +
+            ", deptNo=" + deptNo +
+            '}';
+    }
 }
