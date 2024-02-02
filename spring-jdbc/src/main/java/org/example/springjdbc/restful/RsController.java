@@ -14,49 +14,51 @@ public class RsController {
         this.dbAccess = dbAccess;
     }
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = "application/json")
     public Result hello() {
         return Result.ok("Greetings from Spring Boot!");
     }
 
-    @GetMapping("/depts")
+    @GetMapping(value = "/depts", produces = "application/json")
     public Result depts() {
-        return Result.ok(dbAccess.listDepts());
+        return Result.of(dbAccess::listDepts);
     }
 
-    @GetMapping("/depts/{deptNo}")
+    @GetMapping(value = "/depts/{deptNo}", produces = "application/json")
     public Result dept(
         @PathVariable("deptNo") int deptNo
     ) {
-        return Result.ok(dbAccess.getDept(deptNo));
+        return Result.of(() -> dbAccess.getDept(deptNo));
     }
 
     @GetMapping(value = "/emps", produces = "application/json")
     public Result emps(
         @RequestParam(value = "deptNo", required = false) Integer deptNo
     ) {
-        return Result.ok(dbAccess.listEmps(deptNo));
+        return Result.of(() -> dbAccess.listEmps(deptNo));
     }
 
     @GetMapping(value = "/emps/{empNo}", produces = "application/json")
     public Result getEmp(
         @PathVariable("empNo") int empNo
     ) {
-        return Result.ok(dbAccess.getEmp(empNo));
+        return Result.of(() -> dbAccess.getEmp(empNo));
     }
 
-    @PostMapping(value = "/emps/{empNo}", consumes = "application/json")
+    @PostMapping(value = "/emps/{empNo}", consumes = "application/json", produces = "application/json")
     public Result addEmp(
         @PathVariable("empNo") int empNo,
         @RequestBody Emp emp
     ) {
         emp.empNo = empNo;
-        try {
-            dbAccess.addEmp(emp);
-            return Result.ok();
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+        return Result.of(() -> dbAccess.addEmp(emp));
+    }
+
+    @DeleteMapping(value = "/emps/{empNo}", produces = "application/json")
+    public Result deleteEmp(
+        @PathVariable("empNo") int empNo
+    ) {
+        return Result.of(() -> dbAccess.deleteEmp(empNo));
     }
 
 }

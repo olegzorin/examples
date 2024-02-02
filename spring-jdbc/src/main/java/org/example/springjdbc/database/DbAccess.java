@@ -47,4 +47,9 @@ public class DbAccess {
             "values (:empNo,:name,:job,:mgr,:hireDate,:sal,:comm,:deptNo)", parameterSource);
     }
 
+    public void deleteEmp(int empNo) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("empNo", empNo);
+        new NamedParameterJdbcTemplate(jdbcTemplate).update("delete from emp where emp_no = :empNo", parameterSource);
+    }
+
 }
