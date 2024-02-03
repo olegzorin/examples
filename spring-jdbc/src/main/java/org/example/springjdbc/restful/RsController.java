@@ -5,6 +5,8 @@ import org.example.springjdbc.database.DbAccess;
 import org.example.springjdbc.model.Emp;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class RsController {
 
@@ -45,20 +47,18 @@ public class RsController {
         return Result.of(() -> dbAccess.getEmp(empNo));
     }
 
-    @PostMapping(value = "/emps/{empNo}", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/emps", consumes = "application/json", produces = "application/json")
     public Result addEmp(
-        @PathVariable("empNo") int empNo,
-        @RequestBody Emp emp
+        @RequestBody List<Emp> emps
     ) {
-        emp.empNo = empNo;
-        return Result.of(() -> dbAccess.addEmp(emp));
+        return Result.of(() -> dbAccess.addEmps(emps));
     }
 
-    @DeleteMapping(value = "/emps/{empNo}", produces = "application/json")
+    @DeleteMapping(value = "/emps", produces = "application/json")
     public Result deleteEmp(
-        @PathVariable("empNo") int empNo
+        @RequestParam("empNo") int[] empNos
     ) {
-        return Result.of(() -> dbAccess.deleteEmp(empNo));
+        return Result.of(() -> dbAccess.deleteEmps(empNos));
     }
 
 }
