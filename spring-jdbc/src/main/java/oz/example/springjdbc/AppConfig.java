@@ -1,6 +1,7 @@
 package oz.example.springjdbc;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration("MyConfig")
+@ComponentScan("oz.example.springjdbc.database")
 public class AppConfig {
 
     private static Properties loadProperties() {
@@ -24,14 +26,7 @@ public class AppConfig {
         return properties;
     }
 
-    public static void main(String[] args) {
-        System.out.println(loadProperties());
-        DataSource ds = new AppConfig().mysqlDataSource();
-        JdbcTemplate jt = new JdbcTemplate(ds);
-        System.out.println(jt.queryForObject("select count(1) from emp", Integer.class));
-    }
-
-    @Bean(name="MyDataSource")
+    @Bean(name="appDataSource")
     public DataSource mysqlDataSource() {
         Properties properties = loadProperties();
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -39,7 +34,11 @@ public class AppConfig {
         dataSource.setUsername(properties.getProperty("jdbc.user"));
         dataSource.setPassword(properties.getProperty("jdbc.password"));
         dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/examples");
-
         return dataSource;
+    }
+
+    @Bean(name = "appJdbcTemplate")
+    public JdbcTemplate applicationDataConnection(){
+        return new JdbcTemplate(mysqlDataSource());
     }
 }

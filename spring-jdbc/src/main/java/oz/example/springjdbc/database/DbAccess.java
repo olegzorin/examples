@@ -1,7 +1,5 @@
 package oz.example.springjdbc.database;
 
-import oz.example.springjdbc.mapper.EmpRowMapper;
-import oz.example.springjdbc.model.Emp;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -9,9 +7,12 @@ import org.springframework.jdbc.core.namedparam.SimplePropertySqlParameterSource
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import oz.example.springjdbc.mapper.DeptRowMapper;
+import oz.example.springjdbc.mapper.EmpRowMapper;
+import oz.example.springjdbc.model.Dept;
+import oz.example.springjdbc.model.Emp;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class DbAccess {
@@ -22,13 +23,14 @@ public class DbAccess {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Map<String, Object>> listDepts() {
-        return jdbcTemplate.queryForList("select dept_no, dept_name from dept");
+    public List<Dept> listDepts() {
+        return jdbcTemplate.query("select dept_no, dept_name, location from dept", new DeptRowMapper());
     }
 
-    public Map<String, Object> getDept(int deptNo) {
+    public Dept getDept(int deptNo) {
+        String query = "select dept_no, dept_name, location from dept where dept_no = :deptNo";
         SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("deptNo", deptNo);
-        return jdbcTemplate.queryForMap("select dept_no, dept_name, location from dept where dept_no = :deptNo", parameterSource);
+        return new NamedParameterJdbcTemplate(jdbcTemplate).queryForObject(query, parameterSource, new DeptRowMapper());
     }
 
     public List<Emp> listEmps(Integer deptNo) {
