@@ -1,4 +1,4 @@
-package org.example.springjdbc.model;
+package oz.example.springjdbc.model;
 
 import java.sql.Timestamp;
 

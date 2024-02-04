@@ -1,8 +1,8 @@
-package org.example.springjdbc.restful;
+package oz.example.springjdbc.restful;
 
 
-import org.example.springjdbc.database.DbAccess;
-import org.example.springjdbc.model.Emp;
+import oz.example.springjdbc.database.DbAccess;
+import oz.example.springjdbc.model.Emp;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package org.example.springjdbc.database;
+package oz.example.springjdbc.database;
 
-import org.example.springjdbc.mapper.EmpRowMapper;
-import org.example.springjdbc.model.Emp;
+import oz.example.springjdbc.mapper.EmpRowMapper;
+import oz.example.springjdbc.model.Emp;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

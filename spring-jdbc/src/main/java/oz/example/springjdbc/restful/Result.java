@@ -1,4 +1,4 @@
-package org.example.springjdbc.restful;
+package oz.example.springjdbc.restful;
 
 import java.util.concurrent.Callable;
 

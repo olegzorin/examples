@@ -1,6 +1,6 @@
-package org.example.springjdbc.mapper;
+package oz.example.springjdbc.mapper;
 
-import org.example.springjdbc.model.Emp;
+import oz.example.springjdbc.model.Emp;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.NonNull;
 

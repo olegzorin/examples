@@ -1,4 +1,4 @@
-package org.example.springjdbc;
+package oz.example.springjdbc;
 
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
