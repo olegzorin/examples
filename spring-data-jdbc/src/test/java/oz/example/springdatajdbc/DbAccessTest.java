@@ -1,18 +1,14 @@
 package oz.example.springdatajdbc;
 
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.TestConfiguration;
-//import org.springframework.test.context.ContextConfiguration;
-//import org.springframework.test.context.junit.jupiter.SpringExtension;
-//import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import oz.example.springdatajdbc.database.DbAccess;
 
-//@ExtendWith(SpringExtension.class)
-//@ContextConfiguration(classes = TestConfiguration.class)
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class DbAccessTest {
 
     private final DbAccess dbAccess;
@@ -22,7 +18,7 @@ public class DbAccessTest {
         this.dbAccess = dbAccess;
     }
 
-//    @Test
+    @Test
     void test() {
         System.out.println("OK: " +dbAccess);
     }

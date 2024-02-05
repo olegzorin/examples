@@ -9,13 +9,10 @@ import java.util.List;
 @Service
 public class DbAccess {
 
-//    private final DeptRepository deptRepository;
+    private final DeptRepository deptRepository;
 
-//    public DbAccess(DeptRepository deptRepository) {
-//        this.deptRepository = deptRepository;
-//    }
-
-    public DbAccess() {
+    public DbAccess(DeptRepository deptRepository) {
+        this.deptRepository = deptRepository;
     }
 
     public List<Dept> listDepts() {

@@ -1,8 +1,8 @@
 package oz.example.springdatajdbc;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
@@ -23,7 +23,8 @@ public class AppConfig {
         }
         return properties;
     }
-    @Bean(name="MyDataSource")
+
+    @Bean(name="appMyDataSource")
     public DataSource mysqlDataSource() {
         Properties properties = loadProperties();
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -31,7 +32,6 @@ public class AppConfig {
         dataSource.setUsername(properties.getProperty("jdbc.user"));
         dataSource.setPassword(properties.getProperty("jdbc.password"));
         dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/examples");
-
         return dataSource;
     }
 }
