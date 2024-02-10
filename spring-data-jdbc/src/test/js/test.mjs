@@ -14,8 +14,8 @@ const del = async (empNos) =>
     fetch(`${endpoint}/emps?empNo=${empNos.join("&empNo=")}`, {method: "DELETE"});
 
 const resp = await
-    // get("depts");
-    get("emps");
+    get("depts");
+    // get("emps");
     // get("emps?deptNo=30");
     // add([
     //     {empNo: 10001, name: "Test1", deptNo: 10, job: "user", sal: 101, hireDate: "2024-02-01"},

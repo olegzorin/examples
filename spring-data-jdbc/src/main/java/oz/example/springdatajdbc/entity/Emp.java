@@ -1,4 +1,4 @@
-package oz.example.springdatajdbc.model;
+package oz.example.springdatajdbc.entity;
 
 import org.springframework.data.annotation.Id;
 

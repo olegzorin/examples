@@ -1,8 +1,8 @@
-package oz.example.springdatajdbc.database.crud;
+package oz.example.springdatajdbc.database;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import oz.example.springdatajdbc.model.Dept;
+import oz.example.springdatajdbc.entity.Dept;
 
 import java.util.List;
 
@@ -10,4 +10,6 @@ import java.util.List;
 public interface DeptRepository extends CrudRepository<Dept, Integer> {
 
     List<Dept> findByDeptName(String deptName);
+
+    List<Dept> findByLocation(String location);
 }

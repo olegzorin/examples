@@ -2,10 +2,7 @@ package oz.example.springdatajdbc.restful;
 
 
 import oz.example.springdatajdbc.database.DbAccess;
-import oz.example.springdatajdbc.model.Emp;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class RsController {
