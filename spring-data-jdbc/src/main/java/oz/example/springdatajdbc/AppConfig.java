@@ -1,14 +1,18 @@
 package oz.example.springdatajdbc;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
-import org.springframework.data.jdbc.repository.config.DialectResolver;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.relational.core.dialect.Dialect;
 import org.springframework.data.relational.core.dialect.MySqlDialect;
+import org.springframework.data.relational.core.mapping.NamingStrategy;
+import org.springframework.data.relational.core.mapping.RelationalPersistentEntity;
+import org.springframework.data.relational.core.mapping.RelationalPersistentProperty;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -24,14 +28,48 @@ import java.util.Properties;
 //@EntityScan(basePackages = {"oz.example.springdatajdbc.entity"})
 @ComponentScan(basePackages = {"oz.example.springdatajdbc.database","oz.example.springdatajdbc.database.crud"})
 @EnableJdbcRepositories(basePackages = {"oz.example.springdatajdbc.database"})
-public class AppConfig extends AbstractJdbcConfiguration {
+public class AppConfig extends AbstractJdbcConfiguration implements ApplicationContextAware {
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        super.setApplicationContext(applicationContext);
+    }
+
+
+    @Bean
+    public NamingStrategy namingStrategy() {
+        return new NamingStrategy() {
+
+            @Override
+            public String getColumnName(RelationalPersistentProperty property) {
+                System.out.println(">getColumnName(RelationalPersistentProperty)" + property.getName() + " " + property.getActualType());
+                return NamingStrategy.super.getColumnName(property);
+            }
+
+            @Override
+            public String getReverseColumnName(RelationalPersistentProperty property) {
+                System.out.println("getReverseColumnName(RelationalPersistentProperty"+ property);
+                return NamingStrategy.super.getReverseColumnName(property);
+            }
+
+            @Override
+            public String getReverseColumnName(RelationalPersistentEntity<?> owner) {
+                System.out.println("getReverseColumnName(RelationalPersistentEntity owner");
+                return NamingStrategy.super.getReverseColumnName(owner);
+            }
+
+            @Override
+            public String getKeyColumn(RelationalPersistentProperty property) {
+                return NamingStrategy.super.getKeyColumn(property);
+            }
+        };
+    }
 
     @Bean
     @Override
     public Dialect jdbcDialect(NamedParameterJdbcOperations operations) {
         return MySqlDialect.INSTANCE;
     }
-
 
     private static Properties loadProperties() {
         Properties properties = new Properties();
@@ -48,7 +86,6 @@ public class AppConfig extends AbstractJdbcConfiguration {
     public DataSource mysqlDataSource() {
         Properties properties = loadProperties();
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        System.out.println("jdbc.driver="+properties.getProperty("jdbc.driver"));
         dataSource.setDriverClassName(properties.getProperty("jdbc.driver"));
         dataSource.setUsername(properties.getProperty("jdbc.user"));
         dataSource.setPassword(properties.getProperty("jdbc.password"));
@@ -65,28 +102,5 @@ public class AppConfig extends AbstractJdbcConfiguration {
     TransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
-
-//    @Bean
-//    public JdbcMappingContext mappingContext() {
-//        return new JdbcMappingContext();
-//    }
-//    @Bean
-//    public Dialect dialect() {
-//        return MySqlDialect.INSTANCE;
-//    }
-
-//    @Bean
-//    public JdbcConverter jdbcConverter() {
-//return new BasicJdbcConverter(mappingContext());
-//    }
-//    @Bean
-//    @Override
-//    public JdbcMappingContext jdbcMappingContext(Optional<NamingStrategy> namingStrategy, JdbcCustomConversions customConversions) {
-//
-//        JdbcMappingContext mappingContext = super.jdbcMappingContext(namingStrategy, customConversions);
-//        mappingContext.setForceQuote(false);
-//
-//        return mappingContext;
-//    }
 
 }
