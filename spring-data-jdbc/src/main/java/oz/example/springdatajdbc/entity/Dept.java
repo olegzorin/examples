@@ -9,6 +9,7 @@ public class Dept {
     public int deptNo;
     public String deptName;
     public String location;
+    public boolean deleted;
 //    public List<Emp> emps;
 
     @Override

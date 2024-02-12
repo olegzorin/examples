@@ -8,6 +8,7 @@ import org.springframework.data.jdbc.core.mapping.JdbcMappingContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import oz.example.springdatajdbc.database.DbAccess;
+import oz.example.springdatajdbc.entity.Dept;
 
 import java.sql.SQLOutput;
 import java.util.Arrays;
@@ -40,8 +41,15 @@ public class DbAccessTest {
 
     @Test
     void dept() {
-        System.out.println("OK: " + dbAccess.listDepts());
-        System.out.println("OK: " + dbAccess.listDeptsByLocation("DALLAS"));
+//        System.out.println("Dallas:");
+//        dbAccess.listDeptsByLocation("DALLAS").forEach(System.out::println);
+//        System.out.println("put:");
+        Dept dept = new Dept();
+        dept.deptNo = 50;
+        dept.deptName = "TEST_2";
+        dept.location = "LOC";
+        dbAccess.updateDept(dept);
+        dbAccess.listDepts().forEach(System.out::println);
     }
 
     @Test

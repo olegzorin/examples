@@ -42,13 +42,15 @@ public class AppConfig extends AbstractJdbcConfiguration implements ApplicationC
 
             @Override
             public String getColumnName(RelationalPersistentProperty property) {
-                System.out.println(">getColumnName(RelationalPersistentProperty)" + property.getName() + " " + property.getActualType());
-                return NamingStrategy.super.getColumnName(property);
+                System.out.println(">getColumnName(RelationalPersistentProperty) " + property.getName() + " " + property.getActualType().getName() +" " + property.getActualType().isPrimitive());
+                Class type = property.getActualType();
+                String prefix = type.isPrimitive() && "boolean".equals(type.getName()) ? "is_" : "";
+                return prefix + NamingStrategy.super.getColumnName(property);
             }
 
             @Override
             public String getReverseColumnName(RelationalPersistentProperty property) {
-                System.out.println("getReverseColumnName(RelationalPersistentProperty"+ property);
+                System.out.println("getReverseColumnName(RelationalPersistentProperty "+ property);
                 return NamingStrategy.super.getReverseColumnName(property);
             }
 

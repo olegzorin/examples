@@ -16,4 +16,5 @@ public interface EmpRepository extends CrudRepository<Emp, Integer> {
     List<Emp> getByDeptNo(@Param("deptNo") int deptNo);
 
     List<Emp> findBySalGreaterThanEqual(int sal);
+
 }
