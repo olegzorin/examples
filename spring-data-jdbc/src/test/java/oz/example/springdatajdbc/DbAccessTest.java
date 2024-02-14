@@ -44,12 +44,12 @@ public class DbAccessTest {
 //        System.out.println("Dallas:");
 //        dbAccess.listDeptsByLocation("DALLAS").forEach(System.out::println);
 //        System.out.println("put:");
-        Dept dept = new Dept();
-        dept.deptNo = 50;
-        dept.deptName = "TEST_2";
-        dept.location = "LOC";
-        dbAccess.updateDept(dept);
-        dbAccess.listDepts().forEach(System.out::println);
+//        Dept dept = new Dept();
+//        dept.deptNo = 60;
+//        dept.deptName = "TEST_3";
+//        dept.location = "LOC";
+//        dbAccess.putDept(dept);
+        dbAccess.findDeptsByLoc("DALLAS").forEach(System.out::println);
     }
 
     @Test

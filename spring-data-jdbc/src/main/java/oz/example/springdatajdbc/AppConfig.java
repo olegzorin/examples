@@ -26,7 +26,7 @@ import java.util.Properties;
 
 @Configuration("MyConfig")
 //@EntityScan(basePackages = {"oz.example.springdatajdbc.entity"})
-@ComponentScan(basePackages = {"oz.example.springdatajdbc.database","oz.example.springdatajdbc.database.crud"})
+@ComponentScan(basePackages = {"oz.example.springdatajdbc.database", "oz.example.springdatajdbc.database.crud"})
 @EnableJdbcRepositories(basePackages = {"oz.example.springdatajdbc.database"})
 public class AppConfig extends AbstractJdbcConfiguration implements ApplicationContextAware {
 
@@ -38,26 +38,33 @@ public class AppConfig extends AbstractJdbcConfiguration implements ApplicationC
 
     @Bean
     public NamingStrategy namingStrategy() {
+
         return new NamingStrategy() {
 
             @Override
             public String getColumnName(RelationalPersistentProperty property) {
-                System.out.println(">getColumnName(RelationalPersistentProperty) " + property.getName() + " " + property.getActualType().getName() +" " + property.getActualType().isPrimitive());
-                Class type = property.getActualType();
+                System.out.println(">getColumnName(RelationalPersistentProperty) " + property.getName() + " " + property.getActualType().getName() + " " + property.getActualType().isPrimitive());
+                Class<?> type = property.getActualType();
                 String prefix = type.isPrimitive() && "boolean".equals(type.getName()) ? "is_" : "";
                 return prefix + NamingStrategy.super.getColumnName(property);
             }
 
             @Override
             public String getReverseColumnName(RelationalPersistentProperty property) {
-                System.out.println("getReverseColumnName(RelationalPersistentProperty "+ property);
+                System.out.println("getReverseColumnName(RelationalPersistentProperty " + property);
                 return NamingStrategy.super.getReverseColumnName(property);
             }
 
+            /*
+             * The table of the referenced entity is expected to have an additional column named the same
+             * as the table of the referencing entity. You can change this name by implementing
+             * NamingStrategy.getReverseColumnName(PersistentPropertyPathExtension path).
+             */
             @Override
             public String getReverseColumnName(RelationalPersistentEntity<?> owner) {
-                System.out.println("getReverseColumnName(RelationalPersistentEntity owner");
-                return NamingStrategy.super.getReverseColumnName(owner);
+                System.out.println("getReverseColumnName(RelationalPersistentEntity owner: name=" + owner.getName() + ", idColumn= " + owner.getIdColumn() + ", tableName=" + owner.getTableName());
+                // use column 'dept_no' instead of 'dept' in the 'emp' table
+                return NamingStrategy.super.getReverseColumnName(owner) + "_no";
             }
 
             @Override

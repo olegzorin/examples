@@ -11,5 +11,6 @@ public interface DeptRepository extends CrudRepository<Dept, Integer> {
 
     List<Dept> findByDeptName(String deptName);
 
-    List<Dept> findByLocation(String location);
+    List<Dept> findByLoc(String location);
+
 }

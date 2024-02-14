@@ -23,8 +23,8 @@ public class Emp {
     public String toString() {
         return "Emp{" +
             "empNo=" + empNo +
-            ", name='" + name + '\'' +
-            ", job='" + job + '\'' +
+            ", name=" + name +
+            ", job=" + job +
             ", mgr=" + mgr +
             ", hireDate=" + hireDate +
             ", sal=" + sal +
